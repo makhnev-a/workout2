@@ -1,10 +1,12 @@
 import express from "express"
 import morgan from "morgan"
 import dotenv from "dotenv"
-import userRouters from "./routers/userRouters.js";
+import userRouters from "./routers/userRouters.js"
+import {connectDB} from "./config/db.js"
 import colors from "colors"
 
 dotenv.config()
+connectDB()
 
 const app = express()
 
