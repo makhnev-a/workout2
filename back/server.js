@@ -10,6 +10,7 @@ import {errorHandler, notFound} from "./middleware/errorMiddleware.js";
 /** Routers */
 import userRouters from "./routers/userRouters.js"
 import exerciseRouters from "./routers/exerciseRouters.js";
+import workoutRouters from "./routers/workoutRouters.js";
 
 dotenv.config()
 connectDB()
@@ -24,6 +25,7 @@ app.use(express.json())
 
 app.use('/api/users', userRouters)
 app.use('/api/exercises', exerciseRouters)
+app.use('/api/workouts', workoutRouters)
 
 app.use(notFound)
 app.use(errorHandler)
