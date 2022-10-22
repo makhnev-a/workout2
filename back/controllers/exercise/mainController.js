@@ -17,7 +17,7 @@ export const addNewExercise = expressAsyncHandler(async (req, res) => {
 })
 
 // @desc    Update exercise
-// @route   PUT /api/exercises/:id
+// @route   PUT /api/exercises
 // @access  Private
 export const updateExercise = expressAsyncHandler(async (req, res) => {
     const {name, times, imageId, exerciseId} = req.body
@@ -36,4 +36,21 @@ export const updateExercise = expressAsyncHandler(async (req, res) => {
     const updatedExercise = await exercise.save()
 
     res.json(updatedExercise)
+})
+
+// @desc    Delete exercise
+// @route   DELETE /api/exercises
+// @access  Private
+export const deleteExercise = expressAsyncHandler(async (req, res) => {
+    const {exerciseId} = req.body
+    const exercise = await Exercise.findById(exerciseId)
+
+    if (!exercise) {
+        res.status(404)
+        throw new Error("Данное упражнение не найдено")
+    }
+
+    await exercise.remove()
+
+    res.json({message: "Exercise has been removed"})
 })
