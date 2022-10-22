@@ -13,12 +13,12 @@ const workoutLogSchema = mongoose.Schema({
         ref: "Workout",
         required: true
     },
-    completed: {type: Boolean, default: false}
+    completed: {type: Boolean, default: true}
 }, {
     minimize: false,
     timestamps: true
 })
 
-const WorkoutLog = mongoose.model("Workout", workoutLogSchema)
+const WorkoutLog = mongoose.model("WorkoutLog", workoutLogSchema)
 
 export default WorkoutLog

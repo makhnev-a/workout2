@@ -15,3 +15,25 @@ export const addNewExercise = expressAsyncHandler(async (req, res) => {
 
     res.json(exercise)
 })
+
+// @desc    Update exercise
+// @route   PUT /api/exercises/:id
+// @access  Private
+export const updateExercise = expressAsyncHandler(async (req, res) => {
+    const {name, times, imageId, exerciseId} = req.body
+
+    const exercise = await Exercise.findById(exerciseId)
+
+    if (!exercise) {
+        res.status(404)
+        throw new Error("Данное упражнение не найдено")
+    }
+
+    exercise.name = name
+    exercise.times = times
+    exercise.imageId = imageId
+
+    const updatedExercise = await exercise.save()
+
+    res.json(updatedExercise)
+})

@@ -15,6 +15,26 @@ export const addNewWorkout = expressAsyncHandler(async (req, res) => {
     res.json(workout)
 })
 
+// @desc    Update workout
+// @route   PUT /api/workouts/:id
+// @access  Private
+export const updateWorkout = expressAsyncHandler(async (req, res) => {
+    const {name, exerciseIds, workoutId} = req.body
+    const currentWorkout = await Workout.findById(workoutId)
+
+    if (!currentWorkout) {
+        res.status(404)
+        throw new Error("Данный workout не найден")
+    }
+
+    currentWorkout.name = name
+    currentWorkout.exercises = exerciseIds
+
+    const updatedWorkout = await currentWorkout.save()
+
+    res.json(updatedWorkout)
+})
+
 // @desc    Get workout
 // @route   GET /api/workouts/:id
 // @access  Private
