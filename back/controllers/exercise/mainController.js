@@ -1,56 +1,64 @@
-import expressAsyncHandler from "express-async-handler";
-import Exercise from "../../models/exerciseModel.js";
+import expressAsyncHandler from 'express-async-handler'
+import Exercise from '../../models/exerciseModel.js'
 
 // @desc    Create exercise
 // @route   POST /api/exercises
 // @access  Private
 export const addNewExercise = expressAsyncHandler(async (req, res) => {
-    const {name, times, image} = req.body
+	const { name, times, imageId } = req.body
+	const exercise = await Exercise.create({
+		name,
+		times,
+		imageId,
+	})
 
-    const exercise = await Exercise.create({
-        name,
-        times,
-        image
-    })
-
-    res.json(exercise)
+	res.json(exercise)
 })
 
 // @desc    Update exercise
 // @route   PUT /api/exercises
 // @access  Private
 export const updateExercise = expressAsyncHandler(async (req, res) => {
-    const {name, times, imageId, exerciseId} = req.body
+	const { name, times, imageId, exerciseId } = req.body
 
-    const exercise = await Exercise.findById(exerciseId)
+	const exercise = await Exercise.findById(exerciseId)
 
-    if (!exercise) {
-        res.status(404)
-        throw new Error("Данное упражнение не найдено")
-    }
+	if (!exercise) {
+		res.status(404)
+		throw new Error('Данное упражнение не найдено')
+	}
 
-    exercise.name = name
-    exercise.times = times
-    exercise.imageId = imageId
+	exercise.name = name
+	exercise.times = times
+	exercise.imageId = imageId
 
-    const updatedExercise = await exercise.save()
+	const updatedExercise = await exercise.save()
 
-    res.json(updatedExercise)
+	res.json(updatedExercise)
 })
 
 // @desc    Delete exercise
 // @route   DELETE /api/exercises
 // @access  Private
 export const deleteExercise = expressAsyncHandler(async (req, res) => {
-    const {exerciseId} = req.body
-    const exercise = await Exercise.findById(exerciseId)
+	const { exerciseId } = req.body
+	const exercise = await Exercise.findById(exerciseId)
 
-    if (!exercise) {
-        res.status(404)
-        throw new Error("Данное упражнение не найдено")
-    }
+	if (!exercise) {
+		res.status(404)
+		throw new Error('Данное упражнение не найдено')
+	}
 
-    await exercise.remove()
+	await exercise.remove()
 
-    res.json({message: "Exercise has been removed"})
+	res.json({ message: 'Exercise has been removed' })
+})
+
+// @desc    Get Exercises
+// @route   GET /api/exercises
+// @access  Private
+export const getExercises = expressAsyncHandler(async (req, res) => {
+	const exercises = await Exercise.find({})
+
+	res.json(exercises)
 })
