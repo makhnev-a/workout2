@@ -1,48 +1,52 @@
 import asyncHandler from 'express-async-handler'
-import ExerciseLog from "../../../models/exerciseLogModel.js";
+import ExerciseLog from '../../../models/exerciseLogModel.js'
 
 // @desc    Update exercise log
 // @route   PUT /api/exercises/log
 // @access  Private
 export const updateExerciseLog = asyncHandler(async (req, res) => {
-    const { logId, timeIndex, key, value } = req.body
-    const currentLog = await ExerciseLog.findById(logId)
+	const { logId, timeIndex, key, value } = req.body
+	const currentLog = await ExerciseLog.findById(logId)
 
-    if (!currentLog) {
-        res.status(404)
-        throw new Error("Данный лог не найден!")
-    }
+	if (!currentLog) {
+		res.status(404)
+		throw new Error('Данный лог не найден!')
+	}
 
-    let newTimes = currentLog.times
+	let newTimes = currentLog.times
 
-    if (!timeIndex || !key || !value) {
-        res.status(404)
-        throw new Error("Вы не указали все поля!")
-    }
+	if ((!timeIndex && timeIndex !== 0) || !key || (!value && value !== false)) {
+		res.status(404)
+		throw new Error('Вы не указали все поля!')
+	}
 
-    newTimes[timeIndex][key] = value
-    currentLog.times = newTimes
+	newTimes[timeIndex][key] = value
+	currentLog.times = newTimes
 
-    const updateLog = await currentLog.save()
+	const updateLog = await currentLog.save()
 
-    res.json(updateLog)
+	res.json(updateLog)
 })
 
 // @desc    Update exercise complete log
 // @route   PUT /api/exercises/log/complete
 // @access  Private
 export const updateCompleteExerciseLog = asyncHandler(async (req, res) => {
-    const { logId, completed } = req.body
-    const currentLog = await ExerciseLog.findById(logId)
+	const { logId, completed } = req.body
 
-    if (!currentLog) {
-        res.status(404)
-        throw new Error("Данный лог не найден!")
-    }
+	const currentLog = await ExerciseLog.findById(logId).populate(
+		'exercise',
+		'workout'
+	)
 
-    currentLog.completed = completed
+	if (!currentLog) {
+		res.status(404)
+		throw new Error('Данный лог не найден!')
+	}
 
-    const updateLog = await currentLog.save()
+	currentLog.completed = completed
 
-    res.json(updateLog)
+	const updateLog = await currentLog.save()
+
+	res.json(updateLog)
 })
