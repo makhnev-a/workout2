@@ -3,7 +3,14 @@
 	flex-direction: column;
 	justify-content: space-between;
 
+	height: 890px;
+	max-width: 560px;
+	width: 100%;
+
 	padding: 30px;
-	height: 950px;
-	width: 500px;
+	margin: 0 auto;
+
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
