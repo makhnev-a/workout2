@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import ReactSelect from 'react-select'
 
-import styles from './NewWorkout.module.scss'
 import bgImage from '../../../images/new-workout-bg.jpg'
 
 import Layout from '../../common/Layout'
@@ -19,7 +18,7 @@ const NewWorkout = () => {
 	return (
 		<>
 			<Layout bgImage={bgImage} heading='Create new workout' />
-			<div className={styles.wrapper}>
+			<div className='wrapper-inner-page'>
 				<form onSubmit={handleSubmit}>
 					<Field
 						value={name}
